@@ -14,13 +14,13 @@ services:
       args:
         BASE_IMAGE: outline-base:local
     depends_on:
-      - outline-base
-      - postgres  
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
       - 'storage-data:/var/lib/outline/data'
     environment:
-      - SERVICE_FQDN_OUTLINE_3000
       - NODE_ENV=production
       - 'SECRET_KEY=${SERVICE_BASE64_OUTLINE}'
       - 'UTILS_SECRET=${SERVICE_PASSWORD_64_OUTLINE}'
